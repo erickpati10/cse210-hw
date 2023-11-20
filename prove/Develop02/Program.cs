@@ -103,15 +103,12 @@ public class Journal
 
     public void SaveToFile(string filename)
     {
-        // Logic to save entries to the specified file
-        // Implementation not included in this example
         Console.WriteLine($"Journal saved to {filename}");
     }
 
     public void LoadFromFile(string filename)
     {
-        // Logic to load entries from the specified file
-        // Implementation not included in this example
+        
         Console.WriteLine($"Journal loaded from {filename}");
     }
 }
