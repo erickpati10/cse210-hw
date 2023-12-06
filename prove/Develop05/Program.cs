@@ -2,6 +2,130 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        GoalTracker tracker = new GoalTracker();
+
+        Console.WriteLine("Welcome to the Eternal Quest Goal Tracker!");
+
+        while (true)
+        {
+            Console.WriteLine("\nSelect an action:");
+            Console.WriteLine("1. Create a New Goal");
+            Console.WriteLine("2. List Goals");
+            Console.WriteLine("3. Record Event");
+            Console.WriteLine("4. Save Goals");
+            Console.WriteLine("5. Load Goals");
+            Console.WriteLine("6. Quit");
+
+            Console.Write("Enter your choice: ");
+            int choice;
+            if (!int.TryParse(Console.ReadLine(), out choice))
+            {
+                Console.WriteLine("Invalid input. Please enter a number.");
+                continue;
+            }
+
+            switch (choice)
+            {
+                case 1:
+                    Console.WriteLine("Select the type of goal to create:");
+                    Console.WriteLine("1. Simple Goal");
+                    Console.WriteLine("2. Eternal Goal");
+                    Console.WriteLine("3. Checklist Goal");
+
+                    Console.Write("Enter your choice: ");
+                    int goalTypeChoice;
+                    if (!int.TryParse(Console.ReadLine(), out goalTypeChoice))
+                    {
+                        Console.WriteLine("Invalid input for goal type. Please enter a number.");
+                        break;
+                    }
+
+                    Console.Write("Enter the name of the goal: ");
+                    string goalName = Console.ReadLine();
+
+                    Console.Write("Enter the points for this goal: ");
+                    int goalPoints;
+                    if (!int.TryParse(Console.ReadLine(), out goalPoints))
+                    {
+                        Console.WriteLine("Invalid input for points. Please enter a number.");
+                        break;
+                    }
+
+                    switch (goalTypeChoice)
+                    {
+                        case 1:
+                            tracker.CreateSimpleGoal(goalName, goalPoints);
+                            break;
+
+                        case 2:
+                            tracker.CreateEternalGoal(goalName, goalPoints);
+                            break;
+
+                        case 3:
+                            Console.Write("Enter the target count for this goal: ");
+                            int targetCount;
+                            if (!int.TryParse(Console.ReadLine(), out targetCount))
+                            {
+                                Console.WriteLine("Invalid input for target count. Please enter a number.");
+                                break;
+                            }
+                            Console.Write("Enter the bonus points for this goal: ");
+                            int bonusPoints;
+                            if (!int.TryParse(Console.ReadLine(), out bonusPoints))
+                            {
+                                Console.WriteLine("Invalid input for bonus points. Please enter a number.");
+                                break;
+                            }
+                            tracker.CreateChecklistGoal(goalName, goalPoints, targetCount, bonusPoints);
+                            break;
+
+                        default:
+                            Console.WriteLine("Invalid choice for goal type.");
+                            break;
+                    }
+                    Console.WriteLine("Goal created successfully!");
+                    break;
+
+                case 2:
+                    Console.WriteLine("\nList of Goals:");
+                    tracker.ListGoals();
+                    break;
+
+                case 3:
+                    Console.Write("Enter the name of the event: ");
+                    string eventName = Console.ReadLine();
+                    tracker.RecordEvent(eventName);
+                    Console.WriteLine("Event recorded successfully!");
+                    break;
+
+                case 4:
+                    tracker.SaveGoals("goals.txt");
+                    Console.WriteLine("Goals saved successfully!");
+                    break;
+
+                case 5:
+                    tracker.LoadGoals("goals.txt");
+                    Console.WriteLine("Goals loaded successfully!");
+                    break;
+
+                case 6:
+                    Console.WriteLine("Exiting program. Goodbye!");
+                    Environment.Exit(0);
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid choice. Please select a valid option.");
+                    break;
+            }
+        }
+    }
+}
+
 class Goal
 {
     protected string name;
@@ -207,125 +331,3 @@ class GoalTracker
 
 
 
-class Program
-{
-    static void Main(string[] args)
-    {
-        GoalTracker tracker = new GoalTracker();
-
-        Console.WriteLine("Welcome to the Eternal Quest Goal Tracker!");
-
-        while (true)
-        {
-            Console.WriteLine("\nSelect an action:");
-            Console.WriteLine("1. Create a New Goal");
-            Console.WriteLine("2. List Goals");
-            Console.WriteLine("3. Record Event");
-            Console.WriteLine("4. Save Goals");
-            Console.WriteLine("5. Load Goals");
-            Console.WriteLine("6. Quit");
-
-            Console.Write("Enter your choice: ");
-            int choice;
-            if (!int.TryParse(Console.ReadLine(), out choice))
-            {
-                Console.WriteLine("Invalid input. Please enter a number.");
-                continue;
-            }
-
-            switch (choice)
-            {
-                case 1:
-                    Console.WriteLine("Select the type of goal to create:");
-                    Console.WriteLine("1. Simple Goal");
-                    Console.WriteLine("2. Eternal Goal");
-                    Console.WriteLine("3. Checklist Goal");
-
-                    Console.Write("Enter your choice: ");
-                    int goalTypeChoice;
-                    if (!int.TryParse(Console.ReadLine(), out goalTypeChoice))
-                    {
-                        Console.WriteLine("Invalid input for goal type. Please enter a number.");
-                        break;
-                    }
-
-                    Console.Write("Enter the name of the goal: ");
-                    string goalName = Console.ReadLine();
-
-                    Console.Write("Enter the points for this goal: ");
-                    int goalPoints;
-                    if (!int.TryParse(Console.ReadLine(), out goalPoints))
-                    {
-                        Console.WriteLine("Invalid input for points. Please enter a number.");
-                        break;
-                    }
-
-                    switch (goalTypeChoice)
-                    {
-                        case 1:
-                            tracker.CreateSimpleGoal(goalName, goalPoints);
-                            break;
-
-                        case 2:
-                            tracker.CreateEternalGoal(goalName, goalPoints);
-                            break;
-
-                        case 3:
-                            Console.Write("Enter the target count for this goal: ");
-                            int targetCount;
-                            if (!int.TryParse(Console.ReadLine(), out targetCount))
-                            {
-                                Console.WriteLine("Invalid input for target count. Please enter a number.");
-                                break;
-                            }
-                            Console.Write("Enter the bonus points for this goal: ");
-                            int bonusPoints;
-                            if (!int.TryParse(Console.ReadLine(), out bonusPoints))
-                            {
-                                Console.WriteLine("Invalid input for bonus points. Please enter a number.");
-                                break;
-                            }
-                            tracker.CreateChecklistGoal(goalName, goalPoints, targetCount, bonusPoints);
-                            break;
-
-                        default:
-                            Console.WriteLine("Invalid choice for goal type.");
-                            break;
-                    }
-                    Console.WriteLine("Goal created successfully!");
-                    break;
-
-                case 2:
-                    Console.WriteLine("\nList of Goals:");
-                    tracker.ListGoals();
-                    break;
-
-                case 3:
-                    Console.Write("Enter the name of the event: ");
-                    string eventName = Console.ReadLine();
-                    tracker.RecordEvent(eventName);
-                    Console.WriteLine("Event recorded successfully!");
-                    break;
-
-                case 4:
-                    tracker.SaveGoals("goals.txt");
-                    Console.WriteLine("Goals saved successfully!");
-                    break;
-
-                case 5:
-                    tracker.LoadGoals("goals.txt");
-                    Console.WriteLine("Goals loaded successfully!");
-                    break;
-
-                case 6:
-                    Console.WriteLine("Exiting program. Goodbye!");
-                    Environment.Exit(0);
-                    break;
-
-                default:
-                    Console.WriteLine("Invalid choice. Please select a valid option.");
-                    break;
-            }
-        }
-    }
-}
