@@ -1,0 +1,3 @@
+Run for 10 minutes every day.,50,False
+Read the scriptures 5 minutes every day. ,50,False
+asist to the temple 3 time a week ,100,False
