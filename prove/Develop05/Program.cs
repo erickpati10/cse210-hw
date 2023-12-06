@@ -13,7 +13,7 @@ class Program
 
         while (true)
         {
-            Console.WriteLine("\nSelect an action:");
+            Console.WriteLine("\nMenu options:");
             Console.WriteLine("1. Create a New Goal");
             Console.WriteLine("2. List Goals");
             Console.WriteLine("3. Record Event");
@@ -35,7 +35,6 @@ class Program
                     Console.WriteLine("Select the type of goal to create:");
                     Console.WriteLine("1. Simple Goal");
                     Console.WriteLine("2. Eternal Goal");
-                    Console.WriteLine("3. Checklist Goal");
 
                     Console.Write("Enter your choice: ");
                     int goalTypeChoice;
@@ -171,7 +170,7 @@ class EternalGoal : Goal
 
     public override void MarkComplete()
     {
-        // Eternal goals never truly complete
+       
     }
 }
 
