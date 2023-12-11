@@ -10,9 +10,18 @@ class Program
         Employee employee2 = new Employee("Alice", 1002, 18.75M);
         employee2.SetHoursWorked(45);
 
+        Employee employee3 = new Employee("Erick", 1003, 15.75M);
+        employee3.SetHoursWorked(47);
+
+        Employee employee4 = new Employee("Cole", 1004, 20.25M);
+        employee4.SetHoursWorked(35);
+
         PayrollSystem payrollSystem = new PayrollSystem();
         payrollSystem.ProcessPayment(employee1);
         payrollSystem.ProcessPayment(employee2);
+        payrollSystem.ProcessPayment(employee3);
+        payrollSystem.ProcessPayment(employee4);
+
     }
 }
 
