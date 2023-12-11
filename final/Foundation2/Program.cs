@@ -1,5 +1,21 @@
 using System;
 
+class Program
+{
+    static void Main()
+    {
+        Employee employee1 = new Employee("John", 1001, 15.50M);
+        employee1.SetHoursWorked(40);
+
+        Employee employee2 = new Employee("Alice", 1002, 18.75M);
+        employee2.SetHoursWorked(45);
+
+        PayrollSystem payrollSystem = new PayrollSystem();
+        payrollSystem.ProcessPayment(employee1);
+        payrollSystem.ProcessPayment(employee2);
+    }
+}
+
 class Employee
 {
     private string name;
@@ -38,18 +54,4 @@ class PayrollSystem
     }
 }
 
-class Program
-{
-    static void Main()
-    {
-        Employee employee1 = new Employee("John", 1001, 15.50M);
-        employee1.SetHoursWorked(40);
 
-        Employee employee2 = new Employee("Alice", 1002, 18.75M);
-        employee2.SetHoursWorked(45);
-
-        PayrollSystem payrollSystem = new PayrollSystem();
-        payrollSystem.ProcessPayment(employee1);
-        payrollSystem.ProcessPayment(employee2);
-    }
-}
