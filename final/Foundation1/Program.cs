@@ -1,126 +1,108 @@
 using System;
 using System.Collections.Generic;
 
-
 class Program
 {
     static void Main()
     {
-        Restaurant restaurant = new Restaurant();
+        Order dineInOrder = new DineInOrder("DIN-123", 50.00M, 4);
+        dineInOrder.AddItem("Burger");
+        dineInOrder.AddItem("Fries");
+        dineInOrder.AddItem("Soda");
 
-    
-        restaurant.DisplayAvailableMenu();
+        Order takeoutOrder = new TakeoutOrder("TKO-456", 35.00M, "John Brown", "435-456-7890");
+        takeoutOrder.AddItem("Pizza");
+        takeoutOrder.AddItem("Salad");
+        takeoutOrder.AddItem("Juice");
 
-     
-        restaurant.TakeOrder("Burger");
+        DisplayOrderDetails(dineInOrder);
+        DisplayOrderDetails(takeoutOrder);
+    }
 
-      
-        restaurant.DisplayAllOrders();
+    static void DisplayOrderDetails(Order order)
+    {
+        Console.WriteLine("Order Details:");
+        order.DisplayOrderDetails();
+        Console.WriteLine();
     }
 }
 
-
-class Menu
-{
-    private Dictionary<string, decimal> items;
-
-    public Menu()
-    {
-        items = new Dictionary<string, decimal>();
-        items.Add("Burger", 5.99M);
-        items.Add("Pizza", 8.99M);
-        items.Add("Fries", 3.99M);        
-        items.Add("Drink", 1.79M);
-        items.Add("Milshake", 4.50M);
-        
-    }
-
-    public void DisplayMenu()
-    {
-        Console.WriteLine("Menu:");
-        foreach (var item in items)
-        {
-            Console.WriteLine($"{item.Key}: ${item.Value}");
-        }
-    }
-
-    public decimal GetItemPrice(string itemName)
-    {
-        if (items.ContainsKey(itemName))
-        {
-            return items[itemName];
-        }
-        return 0;
-    }
-}
 
 class Order
 {
-    private List<string> items;
-    private decimal totalPrice;
+    protected string orderId;
+    protected DateTime orderDateTime;
+    protected decimal totalAmount;
+    protected List<string> orderedItems;
 
-    public Order()
+    public Order(string orderId, decimal totalAmount)
     {
-        items = new List<string>();
-        totalPrice = 0;
+        this.orderId = orderId;
+        this.orderDateTime = DateTime.Now;
+        this.totalAmount = totalAmount;
+        orderedItems = new List<string>();
     }
 
-    public void AddItem(string itemName, decimal price)
+    public virtual void PlaceOrder()
     {
-        items.Add(itemName);
-        totalPrice += price;
+        Console.WriteLine("Order placed successfully.");
     }
 
-    public void DisplayOrder()
+    public void AddItem(string item)
     {
-        Console.WriteLine("Order Details:");
-        foreach (var item in items)
+        orderedItems.Add(item);
+    }
+
+    public virtual void DisplayOrderDetails()
+    {
+        Console.WriteLine($"Order ID: {orderId}");
+        Console.WriteLine($"Order Date & Time: {orderDateTime}");
+        Console.WriteLine($"Total Amount: ${totalAmount}");
+        Console.WriteLine("Ordered Items:");
+        foreach (var item in orderedItems)
         {
             Console.WriteLine(item);
         }
-        Console.WriteLine($"Total Price: ${totalPrice}");
     }
 }
 
-class Restaurant
+class DineInOrder : Order
 {
-    private Menu menu;
-    private List<Order> orders;
+    private int tableNumber;
 
-    public Restaurant()
+    public DineInOrder(string orderId, decimal totalAmount, int tableNumber)
+        : base(orderId, totalAmount)
     {
-        menu = new Menu();
-        orders = new List<Order>();
+        this.tableNumber = tableNumber;
     }
 
-    public void DisplayAvailableMenu()
+    public override void DisplayOrderDetails()
     {
-        menu.DisplayMenu();
+        base.DisplayOrderDetails();
+        Console.WriteLine($"Order Type: Dine-in");
+        Console.WriteLine($"Table Number: {tableNumber}");
+    }
+}
+
+class TakeoutOrder : Order
+{
+    private string customerName;
+    private string phoneNumber;
+
+    public TakeoutOrder(string orderId, decimal totalAmount, string customerName, string phoneNumber)
+        : base(orderId, totalAmount)
+    {
+        this.customerName = customerName;
+        this.phoneNumber = phoneNumber;
     }
 
-    public void TakeOrder(string itemName)
+    public override void DisplayOrderDetails()
     {
-        decimal itemPrice = menu.GetItemPrice(itemName);
-        if (itemPrice > 0)
-        {
-            Order newOrder = new Order();
-            newOrder.AddItem(itemName, itemPrice);
-            orders.Add(newOrder);
-            Console.WriteLine("Order placed successfully!");
-        }
-        else
-        {
-            Console.WriteLine("Item not found in the menu.");
-        }
-    }
-
-    public void DisplayAllOrders()
-    {
-        Console.WriteLine("All Orders:");
-        foreach (var order in orders)
-        {
-            order.DisplayOrder();
-        }
+        Console.WriteLine($"Order Type: Takeout");
+        Console.WriteLine($"Customer Name: {customerName}");
+        Console.WriteLine($"Phone Number: {phoneNumber}");
+        base.DisplayOrderDetails();
+       
     }
 }
 
